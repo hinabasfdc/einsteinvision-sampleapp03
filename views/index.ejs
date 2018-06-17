@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link type="text/css" href="/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet">
+  <link type="text/css" href="/assets/styles/style.css" rel="stylesheet">
+  <title>Einstein Vision Sample App</title>
+</head>
+
+<body>
+
+  <!-- Container(Card)-->
+  <article class="slds-card slds-m-around_x-small">
+
+    <!-- Header -->
+    <div class="slds-grid slds-einstein-header slds-card__header">
+      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-grid slds-grid_vertical-align-center slds-size_3-of-4 slds-medium-size_2-of-3">
+          <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-utility-salesforce1">
+              <svg class="slds-icon slds-icon_small slds-icon-text-default" aria-hidden="true">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#preview"></use>
+              </svg>
+            </span>
+          </div>
+          <div class="slds-media__body">
+            <h2 class="slds-truncate" title="Einstein Vision">
+              <a href="javascript:void(0);" class="slds-card__header-link" title="Einstein (10+)">
+                <span class="slds-text-heading_small">Einstein Vision</span>
+              </a>
+            </h2>
+          </div>
+        </div>
+        <div class="slds-einstein-header__figure slds-size_1-of-4 slds-medium-size_1-of-3"></div>
+      </header>
+    </div>
+
+    <!-- Card Body -->
+    <div class="slds-card__body slds-card__body_inner">
+
+      <!-- Image-->
+      <canvas id="cvs" style="display: none;"></canvas>
+      <div class="slds-p-around_medium slds-text-align_center" ondrop="drop_handler(event)" ondragover="dragover_handler(event);">
+        <img id="img_target" src="/assets/icons/utility/image_120.png" onclick="rotateImage()"></img>
+      </div>
+      <div class="slds-p-around_medium slds-text-align_center">
+        <input class="slds-file-selector__input slds-assistive-text" accept="image/png;image/jpeg" id="file-upload-input-01" aria-describedby="file-selector-id"
+          type="file" onchange="drawImage()">
+        <label class="slds-file-selector__body" for="file-upload-input-01">
+          <span class="slds-file-selector__button slds-button slds-button_neutral">
+            <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+            </svg>
+            Select or Drop Image File / Take Photo
+          </span>
+        </label>
+      </div>
+
+      <!-- Tab -->
+      <div class="slds-tabs_default">
+        <ul class="slds-tabs_default__nav" role="tablist">
+          <li id="tabLabelImageClassification" class="slds-tabs_default__item slds-is-active" title="Item One" role="presentation">
+            <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1"
+              id="tab-default-1__item" onclick="changeTab('tabImageClassification')">Image Classification</a>
+          </li>
+          <li id="tabLabelObjectDetection" class="slds-tabs_default__item" title="Item Two" role="presentation">
+            <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2"
+              id="tab-default-2__item" onclick="changeTab('tabObjectDetection')">Object Detection</a>
+          </li>
+        </ul>
+
+        <!-- Tab1(Image Classification) -->
+        <div id="tabImageClassification" class="slds-tabs_default__content slds-show" role="tabpanel" aria-labelledby="tab-default-1__item">
+
+          <!-- Model -->
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="selectModelImageClassification">Select Image Classification Model</label>
+            <div class="slds-form-element__control">
+              <div class="slds-select_container">
+                <select class="slds-select" id="selectModelImageClassification">
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Button -->
+          <div class="slds-m-top_x-small slds-align_absolute-center">
+            <button class="slds-button slds-button_brand" onclick="callVisionApi('IMAGECLASSIFICATION');">
+              <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+              </svg>Predict</button>
+          </div>
+        </div>
+
+        <!-- Tab2(Object Detection) -->
+        <div id="tabObjectDetection" class="slds-tabs_default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-2__item">
+          <!-- Model -->
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="selectModelObjectDetection">Select Object Detection Model</label>
+            <div class="slds-form-element__control">
+              <div class="slds-select_container">
+                <select class="slds-select" id="selectModelObjectDetection">
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Button -->
+          <div class="slds-m-top_x-small slds-align_absolute-center">
+            <button class="slds-button slds-button_brand" onclick="callVisionApi('OBJECTDETECTION');">
+              <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+              </svg>Detect</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div id="tableResult" class="slds-m-top_x-small">
+      </div>
+
+      <!-- Raw -->
+      <div class="slds-form-element slds-m-top_x-small">
+        <label class="slds-form-element__label" for="textarea-id-01">Raw Response</label>
+        <div class="slds-form-element__control">
+          <textarea id="textareaResult" class="slds-textarea" placeholder=""></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="slds-card__footer">
+      &copy;2018&nbsp;hinaba&nbsp;|&nbsp;
+      <a href="https://einstein.ai">Einstein Platform Services</a>&nbsp;|&nbsp;
+      <a href="https://github.com/hinabasfdc/einsteinvision-sampleapp03">Github Repository</a>
+    </footer>
+
+  </article>
+
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="/assets/scripts/script.js"></script>
+  <script type="text/javascript">
+    function init() {
+
+      // Set Image Classification Models
+      let si = '<%= models_imageclassification %>';
+      if (si != '') {
+        let objModelsImageClassification = JSON.parse(si.replace(/&#34;/g, '"'));
+        let elSelectModelImageClassification = document.getElementById("selectModelImageClassification");
+        if (objModelsImageClassification.models.length > 0) {
+          for (let i = 0; i < objModelsImageClassification.models.length; i++) {
+            let option_add = document.createElement("option");
+            option_add.setAttribute("value", objModelsImageClassification.models[i].modelid);
+            option_add.innerHTML = objModelsImageClassification.models[i].label;
+            elSelectModelImageClassification.appendChild(option_add);
+          }
+        }
+      }
+
+      // Set Object Detection Models
+      let so = '<%= models_objectdetection %>';
+      if (so != '') {
+        let objModelsObjectDetection = JSON.parse(so.replace(/&#34;/g, '"'));
+        let elSelectModelObjectDetection = document.getElementById("selectModelObjectDetection");
+        if (objModelsObjectDetection.models.length > 0) {
+          for (let i = 0; i < objModelsObjectDetection.models.length; i++) {
+            let option_add = document.createElement("option");
+            option_add.setAttribute("value", objModelsObjectDetection.models[i].modelid);
+            option_add.innerHTML = objModelsObjectDetection.models[i].label;
+            elSelectModelObjectDetection.appendChild(option_add);
+          }
+        }
+      }
+
+      // Set Image size Maz
+      //IMAGESIZE_MAX = <%= models_objectdetection %>;
+    }
+    init();
+
+    let socket = io();
+  </script>
+</body>
+
+</html>
