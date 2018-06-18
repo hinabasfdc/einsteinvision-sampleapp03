@@ -154,7 +154,7 @@
         if (objModelsImageClassification.models.length > 0) {
           for (let i = 0; i < objModelsImageClassification.models.length; i++) {
             let option_add = document.createElement("option");
-            option_add.setAttribute("value", objModelsImageClassification.models[i].modelid);
+            option_add.setAttribute("value", objModelsImageClassification.models[i].value);
             option_add.innerHTML = objModelsImageClassification.models[i].label;
             elSelectModelImageClassification.appendChild(option_add);
           }
@@ -171,7 +171,7 @@
         if (objModelsObjectDetection.models.length > 0) {
           for (let i = 0; i < objModelsObjectDetection.models.length; i++) {
             let option_add = document.createElement("option");
-            option_add.setAttribute("value", objModelsObjectDetection.models[i].modelid);
+            option_add.setAttribute("value", objModelsObjectDetection.models[i].value);
             option_add.innerHTML = objModelsObjectDetection.models[i].label;
             elSelectModelObjectDetection.appendChild(option_add);
           }
