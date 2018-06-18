@@ -19,6 +19,7 @@ Einstein Vision を試用するために、GUIをNode.jsで実装したサンプ
 
 - スマートフォンのブラウザでこの Web アプリにアクセスすることで、カメラ起動→撮影→解析を試してみることが可能です。
 - 画像リサイズ処理をクライアント側で行った上でサーバーに送信し、予測・解析を行うようにしましています。
+- Object Detection の結果を画像に描画します。
 
 ## Heroku の設定変数による定義
 
@@ -26,6 +27,15 @@ Einstein Vision を試用するために、GUIをNode.jsで実装したサンプ
 - MODELS_IMAGECLASSIFICATION: Image Classification のモデルを選択するセレクトボックスに表示するモデルのリストを定義します。
 - MODELS_OBJECTDETECTION: Object Detection のモデルを選択するセレクトボックスに表示するモデルのリストを定義します。
 - IMAGESIZE_MAX: 画像ファイルの最大サイズを指定します。(指定したサイズより大きい画像は長編が指定したサイズになるようにリサイズされます)
+
+## 注意事項
+
+- Object Detection はデフォルトでモデルが用意されていません。例えば次の URL にあるサンプルのモデルを使って作成し、"MODELS_IMAGECLASSIFICATION"の設定変数を参考に、"MODELS_OBJECTDETECTION"の値を設定して下さい。
+    - https://einstein.ai/products/custom-detection
+    - このサンプルアプリケーションは URL を指定しての予測・解析はには対応していないので、リンク先のサンプル画像はダウンロードしてから読み込ませてください。
+- 独自の Object Detection のデータセットを作成するには次のツールを使うと便利です。
+    - Sample Annotation Tool for Einstein Vision Object Detection
+    - https://github.com/misu007/einstein-vision-object-detection-annotation-tool-sample
 
 ## 免責事項
 

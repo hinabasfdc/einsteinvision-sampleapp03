@@ -93,8 +93,6 @@ io.on('connection', (socket) => {
 
       //組み立てたリクエスト文を送信
       request.post(reqOptionsPrediction, function (error, response, body) {
-        console.log(params.modelId);
-        console.log(body);
         //引数として渡されてきたコールバック関数に、返り値のJSONを渡して呼び出し
         cb(body);
       });
