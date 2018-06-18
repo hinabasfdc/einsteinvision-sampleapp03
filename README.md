@@ -2,7 +2,11 @@
 
 Einstein Vision を試用するために、GUIをNode.jsで実装したサンプルアプリです。Heroku Buttonでデプロイするだけで、デフォルトで用意されているモデルを使用した予測・解析を試してみることができます。
 
-この 03 から Lightning Design System スタイルを適用させ、また Object Detection のモデル試行にも対応させました。
+この 03 から Lightning Design System スタイルを適用させ、また Object Detection のモデル試行にも対応させました。その分コードが複雑になっているので、アプリケーションの構造を中心に把握したい方は、過去のサンプルアプリケーションもご参照ください。
+- Einstein Vision サンプルアプリ 02 (API V2対応/シンプルUI版)
+    - https://github.com/hinabasfdc/einsteinvision-sampleapp02
+- Einstein Vision サンプルアプリ (API V2対応)
+    - https://github.com/hinabasfdc/einstein-vision_sampleapp01
 
 2018/6/18
 
