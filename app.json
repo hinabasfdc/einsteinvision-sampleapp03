@@ -10,7 +10,7 @@
   "env": {
     "API_VERSION": {"description":"Einstein Vision API Version","value":"v2"},
     "MODELS_IMAGECLASSIFICATION": {"description":"Image Classification Model ID List","value":"{\"models\":[{\"label\":\"GeneralImageClassifier\",\"value\":\"GeneralImageClassifier\"},{\"label\":\"FoodImageClassifier\",\"value\":\"FoodImageClassifier\"},{\"label\":\"SceneClassifier\",\"value\":\"SceneClassifier\"}]}"},
-    "MODELS_OBJECTDETECTION": {"description":"Object Detection Model ID List","value":""},
+    "MODELS_OBJECTDETECTION": {"description":"Object Detection Model ID List","value":"","required":"false"},
     "IMAGESIZE_MAX": {"description":"Max image size","value":"960"}
   }
 }
