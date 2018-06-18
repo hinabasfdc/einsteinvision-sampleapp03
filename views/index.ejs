@@ -146,9 +146,10 @@
     function init() {
 
       // Set Image Classification Models
-      let si = '<%= models_imageclassification %>';
+      let si = '<%- models_imageclassification %>';
       if (si != '') {
-        let objModelsImageClassification = JSON.parse(si.replace(/&#34;/g, '"'));
+        //let objModelsImageClassification = JSON.parse(si.replace(/&#34;/g, '"'));
+        let objModelsImageClassification = JSON.parse(si);
         let elSelectModelImageClassification = document.getElementById("selectModelImageClassification");
         if (objModelsImageClassification.models.length > 0) {
           for (let i = 0; i < objModelsImageClassification.models.length; i++) {
@@ -161,9 +162,10 @@
       }
 
       // Set Object Detection Models
-      let so = '<%= models_objectdetection %>';
+      let so = '<%- models_objectdetection %>';
       if (so != '') {
-        let objModelsObjectDetection = JSON.parse(so.replace(/&#34;/g, '"'));
+        //let objModelsObjectDetection = JSON.parse(so.replace(/&#34;/g, '"'));
+        let objModelsObjectDetection = JSON.parse(so);
         let elSelectModelObjectDetection = document.getElementById("selectModelObjectDetection");
         if (objModelsObjectDetection.models.length > 0) {
           for (let i = 0; i < objModelsObjectDetection.models.length; i++) {
@@ -176,7 +178,7 @@
       }
 
       // Set Image size Maz
-      //IMAGESIZE_MAX = <%= models_objectdetection %>;
+      IMAGESIZE_MAX=<%-imagesize_max%>;
     }
     init();
 
